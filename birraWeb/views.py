@@ -22,4 +22,7 @@ def calculoTotalFacturado(request):
         sum_pago = 0.0
         for i in pagos_detalle:
             sum_pago+=i.monto_pago
-        return render(request, 'home/index.html')
+        context = {
+            "sum_pago": sum_pago,
+        }
+        return render(request, 'resultados/totalFacturadoEnDia.html',context)
