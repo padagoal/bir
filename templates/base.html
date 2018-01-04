@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>La Birreria</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    {% block css %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        {% block extra_css %}
+        {% endblock extra_css %}
+    {% endblock css %}
+    <!-- Verifica si el usuario esta logueado -->
+    <script>
+     function login() {
+        {% if not user.is_authenticated %}
+         window.location = "{% url 'login' %}";
+        {% endif %}
+     }
+     </script>
+</head>
+<body onload="login()">
+<nav class="navbar navbar-default" style="margin-bottom: 0;">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="{% url 'home' %}">La Birreria</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+       <!-- <li {% block personasActive %}{% endblock %} class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Personas <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'home' %}">Alumnos</a></li>
+            <li><a href="{% url 'home' %}">Profesores</a></li>
+            <li><a href="{% url 'home' %}">Funcionarios</a></li>
+          </ul>
+        </li>
+        <li {% block cursosActive %}{% endblock %} class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cursos <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a href="{% url 'home' %}">Materias</a></li>
+              <li><a href="{% url 'home' %}">Cursos</a></li>
+              <li><a href="{% url 'home' %}">Periodo lectivo</a></li>
+           </ul>
+        </li>
+        <li {% block horarioActive %}{% endblock %}><a href="{% url 'home' %}">Horario<span class="sr-only">(current)</span></a></li>
+  <!--      <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>-->
+      <!--<li {% block examenesActive %}{% endblock %} class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Examenes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a href="{% url 'home' %}">Examenes</a></li>
+              <li><a href="{% url 'home' %}">Tipo de Examenes</a></li></li>
+              <li><a href="{% url 'home' %}">Inscriptos a Examenes</a></li></li>
+           </ul>
+        </li>-->
+          </ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li {% block configActive %}{% endblock %} class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><em class="fa fa-cogs"></em><span class="caret"></span></a>
+         <!-- <ul class="dropdown-menu">
+            <li><a href="{% url 'home' %}">Mallas curriculares</a></li></li>
+            <li><a href="{% url 'home' %}">Carreras</a></li>
+            <li><a href="{% url 'home' %}">Unidades pedagógicas</a></li></li>
+            <li><a href="{% url 'home' %}">Sedes</a></li></li>
+              <li><a href="{% url 'home' %}">Personas Inscriptas a Carreras</a></li></li>
+              <li><a href="{% url 'home' %}">Alumnos Inscriptos a Cursos</a></li></li>
+          </ul> -->
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.get_username }} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Ver permisos</a></li>
+            <li><a href="#">Cambiar contraseña</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+        <!-- Page content -->
+        <div id="page-content-wrapper" style="padding-top: 1em;">
+            <div class="container-fluid">
+                {% block contenido %}
+                {% endblock %}
+            </div>
+        </div>
+
+    <!-- Menu toggle script -->
+        {% block javascript %}
+
+            <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+            {% block extra_js %}
+
+            {% endblock extra_js%}
+        {% endblock javascript %}
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Studium - Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4" style="margin-top: 10em; text-align: center;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Iniciar sesión</div>
+                    <div class="panel-body">
+                        {% if form.errors %}
+                        <p>Your username and password didn't match. Please try again.</p>
+                        {% endif %}
+
+                        {% if next %}
+                            {% if user.is_authenticated %}
+                            <p>Your account doesn't have access to this page. To proceed,
+                            please login with an account that has access.</p>
+                            {% else %}
+                            <p>Please login to see this page.</p>
+                            {% endif %}
+                        {% endif %}
+
+                        <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="input-group" style="display: inline-table;">
+                          <input type="text" id="id_username" maxlength="254" name="username" class="form-control" placeholder="Usuario" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group" style="display: inline-table;">
+                          <input type="password" id="id_password" maxlength="254" name="password" class="form-control" placeholder="Contraseña" aria-describedby="basic-addon1">
+                        </div>
+                        <div>
+                          <input class="btn btn-success" type="submit" value="Iniciar sesión" style="margin-top: 0.5em;" />
+                          <input type="hidden" name="next" value="{{ next }}" />
+                        </div>
+                        </form>
+
+                        {# Assumes you setup the password_reset view in your URLconf #}
+                        <p><a href="{% url 'password_reset' %}">Olvido su contraseña?</a></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</body>
+</html>

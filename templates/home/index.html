@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block configActive %} class="active"{% endblock %}
+{% block extra_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/bootstrapTable.css' %}" rel='stylesheet' type='text/css'>
+{% endblock extra_css %}
+
+{% block contenido %}
+    <div class="alert alert-info" role="alert" style="display: flex; position: relative;">
+        <h3 class="panel-title" style="font-size: 2em;">Alumnos Inscriptos a Cursos</h3>
+        <button type="button" class="btn btn-sm btn-success btn-create" onclick="location.href='{% url 'home' %}'" style="position: absolute;right: 0.5em;">Nueva Alumno por Curso</button>
+    </div>
+
+
+    {% if objetoEliminado %}
+        <div class="alert alert-warning" role="alert">Exito! La inscripcion fue eliminada.</div>
+    {% endif %}
+    {% if objetoAgregado %}
+        <div class="alert alert-success" role="alert">Exito! La inscripcion fue agregada.</div>
+    {% endif %}
+    {% if objetoEditado %}
+        <div class="alert alert-warning" role="alert">Exito! La inscripcion fue editada.</div>
+    {% endif %}
+
+    </div>
+{% endblock %}
