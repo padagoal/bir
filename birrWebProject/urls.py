@@ -21,4 +21,11 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^$', views.homeView, name='home'),
+
+
+
+
+
+    #reporte
+    url(r'^pago/', views.calculoTotalFacturado,name='calcT'),
 ]

@@ -452,6 +452,8 @@ class PagosDetalle(models.Model):
         managed = False
         db_table = 'pagos_detalle'
 
+    def __unicode__(self):
+        return self
 
 class PedidosCabecera(models.Model):
     id_pedido_cabecera = models.BigAutoField(primary_key=True)
