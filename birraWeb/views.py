@@ -82,11 +82,22 @@ def calculoGrafico(request):
         today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
 
     cursor = connection.cursor()
-    cursor.execute("SELECT artg.grupo_nombre,SUM(pd.cantidad) as cantidad FROM pedidos_detalle pd \
+    cursor.execute("SELECT artg.grupo_nombre as name ,SUM(pd.cantidad) as y FROM pedidos_detalle pd \
                    INNER JOIN pedidos_cabecera pc \
     ON pc.id_pedido_cabecera = pd.id_cabecera INNER JOIN articulos art ON art.id_articulo = pd.producto_codigo \
     INNER JOIN articulos_grupos artg ON artg.id_grupo = art.id_grupo_articulo WHERE pd.anulado=0 AND pc.fecha_evento "
      " BETWEEN %s AND %s GROUP BY artg.grupo_nombre",[fecha,fecha])
-    row = cursor.fetchall()
-    print(row)
+    row = dictfetchall(cursor)
+    lista = row.__str__()
+    context = {
+        "lista":lista
+    }
+    return render(request, 'resultados/p.html', context)
 
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+    ]
