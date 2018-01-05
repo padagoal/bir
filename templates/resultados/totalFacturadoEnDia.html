@@ -1,9 +1,41 @@
 {% load humanize %}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-lg-12">
-        <button class="btn btn-info" style="width: 100%">Total Facturado en el Dia en Guaranies:</button>
+        <button class="btn btn-success" style="width: 100%">Total Vendido  en Guaranies:</button>
     </div>
     <div class="col-xs-12 col-sm-12 col-lg-12">
-         <h3 style="text-align: center;"><b>{{ sum_pago }}</b></h3>
+         <h3 style="text-align: center;"><b>{{ sum_pago|floatformat:0 }}</b></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+        <button class="btn btn-info" style="width: 100%">Total Facturado en Guaranies:</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+         <h3 style="text-align: center;"><b>{{ monto_fact|floatformat:0 }}</b></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+        <button class="btn btn-success" style="width: 100%">Total Pendiente a Facturar  en Guaranies:</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+         <h3 style="text-align: center;"><b>{{ monto_pend_fact|floatformat:0 }}</b></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+        <button class="btn btn-info" style="width: 100%">Cantidad de Cubiertos:</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+         <h3 style="text-align: center;"><b>{{ canti_cub }}</b></h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+        <button class="btn btn-success" style="width: 100%">Promedio:</button>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+         <h3 style="text-align: center;"><b>{{ prom|floatformat:2 }}</b></h3>
     </div>
 </div>

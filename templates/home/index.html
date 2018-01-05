@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% load humanize %}
 {% block configActive %} class="active"{% endblock %}
 {% block extra_css %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
@@ -17,30 +17,62 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script>
     $(function () {
-        $('.datetime-input').datetimepicker({
+        $('#datetimepicker').datetimepicker({
 
-            format:'YYYY-MM-DD'
+            format:'YYYY-MM-DD',
+            defaultDate: new Date()
         });
     });
 </script>
 
 {% endblock javascript %}
+
 {% block contenido %}
     <div class="alert alert-info" role="alert" style="display: flex; position: relative;">
-        <h3 class="panel-title" style="font-size: 2em;">Alumnos Inscriptos a Cursos</h3>
-        <button type="button" class="btn btn-sm btn-success btn-create" onclick="location.href='{% url 'calcT' %}'" style="position: absolute;right: 0.5em;">Nueva Alumno por Curso</button>
+        <h3 class="panel-title" style="font-size: 2em;">Datos sobre La Birreria</h3>
+        <button type="button" id="bb" class="btn btn-sm btn-success btn-create"  onclick="recargar()"
+                style="position: absolute;right: 0.5em;">Actualizar</button>
     </div>
-    <div id="resultado">
+    <div class="row" style="margin-top: 1px; padding-bottom: 8px;background-color: #f5f5f5;">
+                         <label class="control-label col-xs-12 col-sm-12 col-lg-12" style="font-weight: bolder; margin-top: 1px;text-align: center;">Fecha</label>
+                         <div class="hidden-xs col-sm-4 col-lg-4">
+                        </div>
+                        <div class="col-xs-10 col-sm-4 col-lg-4">
+                            <center>
+                                <div class="form-group">
+                                    <div class='input-group date' id='datetimepicker'>
+                                        <input type='text' class="form-control" id='fecha_inp' style="font-weight: bolder; margin-top: 3px;"/>
+                                         <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                         </span>
+                                     </div>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="hidden-xs col-sm-4 col-lg-4">
+                        </div>
+    </div>
 
+
+    <div class="row">
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+
+     <div id="resultado">
+
+     </div>
     </div>
+
 
 
 <script>
+ $(document).ready(function () {
+     var query =($('#fecha_inp').val());
     $.ajax({
            type: 'GET',
            url: '{% url "calcT" %}',
            data: {
-             'csrfmiddlewaretoken': '{{ csrf_token }}'
+             'csrfmiddlewaretoken': '{{ csrf_token }}',
+               'fecha' : ''
            },
            success: function(data) {
               $('#resultado').html(data);
@@ -49,6 +81,29 @@
               console.log(data);
            }
     });
+ });
+
+ $('#fecha_inp').on("change",function (event) {
+    recargar();
+ });
+
+ function recargar() {
+     var query =($('#fecha_inp').val());
+     $.ajax({
+           type: 'GET',
+           url: '{% url "calcT" %}',
+           data: {
+             'csrfmiddlewaretoken': '{{ csrf_token }}',
+               'fecha' :query
+           },
+           success: function(data) {
+              $('#resultado').html(data);
+           },
+           error: function(data) {
+              console.log(data);
+           }
+    });
+ }
 </script>
     </div>
 {% endblock %}
