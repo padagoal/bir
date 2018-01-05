@@ -17,21 +17,32 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script>
     $(function () {
-        $('#datetimepicker').datetimepicker({
+        var elpicker = $('#datetimepicker');
+       elpicker.datetimepicker({
 
             format:'YYYY-MM-DD',
             defaultDate: new Date()
         });
+       elpicker.on('dp.change', function(e){ recargar() });
     });
 </script>
 
 {% endblock javascript %}
 
 {% block contenido %}
-    <div class="alert alert-info" role="alert" style="display: flex; position: relative;">
-        <h3 class="panel-title" style="font-size: 2em;">Datos sobre La Birreria</h3>
-        <button type="button" id="bb" class="btn btn-sm btn-success btn-create"  onclick="recargar()"
-                style="position: absolute;right: 0.5em;">Actualizar</button>
+    <div class="row" style="margin-top: 1px; padding-bottom: 8px;">
+
+                         <div class="hidden-xs col-sm-4 col-lg-4">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-lg-4">
+                            <center>
+                                 <img src="{% static 'image/logo_birreria.jpeg' %}" width="50%" alt="">
+                             </center>
+                        <!--<button type="button" id="bb" class="btn btn-sm btn-success btn-create"  onclick="recargar()"
+                            style="position: absolute;right: 0.5em;">Actualizar</button>-->
+                        </div>
+                        <div class="hidden-xs col-sm-4 col-lg-4">
+                        </div>
     </div>
     <div class="row" style="margin-top: 1px; padding-bottom: 8px;background-color: #f5f5f5;">
                          <label class="control-label col-xs-12 col-sm-12 col-lg-12" style="font-weight: bolder; margin-top: 1px;text-align: center;">Fecha</label>
@@ -41,7 +52,8 @@
                             <center>
                                 <div class="form-group">
                                     <div class='input-group date' id='datetimepicker'>
-                                        <input type='text' class="form-control" id='fecha_inp' style="font-weight: bolder; margin-top: 3px;"/>
+                                        <input type='text' class="form-control" id='fecha_inp'
+                                               style="font-weight: bolder; margin-top: 3px;" onchange="recargar()"/>
                                          <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                          </span>
@@ -66,6 +78,7 @@
 
 <script>
  $(document).ready(function () {
+     setTimeout(function(){ recargar() }, 60000*5);
      var query =($('#fecha_inp').val());
     $.ajax({
            type: 'GET',
@@ -83,11 +96,9 @@
     });
  });
 
- $('#fecha_inp').on("change",function (event) {
-    recargar();
- });
 
  function recargar() {
+     setTimeout(function(){ recargar() }, 60000*5);
      var query =($('#fecha_inp').val());
      $.ajax({
            type: 'GET',
