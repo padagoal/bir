@@ -102,7 +102,7 @@
      var query =($('#fecha_inp').val());
      $.ajax({
            type: 'GET',
-           url: '{% url "calcT" %}',
+           url: '{% url "calcGra" %}',
            data: {
              'csrfmiddlewaretoken': '{{ csrf_token }}',
                'fecha' :query

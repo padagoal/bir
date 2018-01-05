@@ -124,6 +124,8 @@ class Articulos(models.Model):
         managed = False
         db_table = 'articulos'
 
+    def __str__(self):
+        return self.descripcion_corta
 
 class ArticulosGrupos(models.Model):
     id_grupo = models.AutoField(primary_key=True)

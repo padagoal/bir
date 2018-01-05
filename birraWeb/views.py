@@ -2,16 +2,13 @@ from django.db.models import Q
 from django.shortcuts import render
 from birraWeb.models import *
 import datetime
-
+from django.db import connection
 
 # Create your views here.
 
 
 def homeView(request):
-    if not request.user.is_authenticated():
-        return render(request, 'registration/login.html')
-    else:
-        return render(request, 'home/index.html')
+    return render(request, 'home/index.html')
 
 
 def calculoTotalFacturado(request):
@@ -68,3 +65,28 @@ def calculoTotalFacturado(request):
         "monto_pend_fact":monto_pend_fact
     }
     return render(request, 'resultados/totalFacturadoEnDia.html', context)
+
+
+def calculoGrafico(request):
+    fecha = request.GET.get('fecha')
+    print(fecha)
+    sep_fec = fecha.split('-')
+    if fecha != '' and request.is_ajax():
+        today_min = datetime.datetime.combine(datetime.date(int(sep_fec[0]), int(sep_fec[1]), int(sep_fec[2])),
+                                              datetime.time.min)
+        today_max = datetime.datetime.combine(datetime.date(int(sep_fec[0]), int(sep_fec[1]), int(sep_fec[2])),
+                                              datetime.time.max)
+    else:
+
+        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT artg.grupo_nombre,SUM(pd.cantidad) as cantidad FROM pedidos_detalle pd \
+                   INNER JOIN pedidos_cabecera pc \
+    ON pc.id_pedido_cabecera = pd.id_cabecera INNER JOIN articulos art ON art.id_articulo = pd.producto_codigo \
+    INNER JOIN articulos_grupos artg ON artg.id_grupo = art.id_grupo_articulo WHERE pd.anulado=0 AND pc.fecha_evento "
+     " BETWEEN %s AND %s GROUP BY artg.grupo_nombre",[fecha,fecha])
+    row = cursor.fetchall()
+    print(row)
+

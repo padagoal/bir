@@ -28,4 +28,5 @@ urlpatterns = [
 
     #reporte
     url(r'^pago/', views.calculoTotalFacturado,name='calcT'),
+    url(r'^graf/', views.calculoGrafico,name='calcGra'),
 ]
